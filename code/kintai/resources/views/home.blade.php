@@ -21,8 +21,17 @@
                         <a href="{{ route('attendance.summary') }}" class="btn btn-secondary">1か月の出退勤表</a>
                     </div>
 
-                    <br>
-                    <a href="{{ route('login') }}" class="btn btn-secondary">トップ画面に戻る</a> <!-- トップ画面に戻るリンクを追加 -->
+            
+                    <!-- ログアウトボタンを追加 -->
+                    <a href="{{ route('logout') }}" class="btn btn-danger"
+                       onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                        ログアウト
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
             </div>
         </div>

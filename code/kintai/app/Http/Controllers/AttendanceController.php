@@ -18,6 +18,11 @@ class AttendanceController extends Controller
     // 出勤・退勤のデータを保存
     public function store(Request $request)
     {
+        // ユーザーがログインしているか確認
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['message' => 'ログインしてください。']);
+        }
+
         $user = Auth::user();
         $status = $request->input('status');
         $currentTime = Carbon::now();
@@ -38,6 +43,11 @@ class AttendanceController extends Controller
     // 1か月の出退勤表のページ
     public function index()
     {
+        // ユーザーがログインしているか確認
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['message' => 'ログインしてください。']);
+        }
+
         $user = Auth::user();
         $attendances = Attendance::where('user_id', $user->id)->get();
         return view('attendance_summary', compact('attendances'));
@@ -46,6 +56,11 @@ class AttendanceController extends Controller
     // 出退勤データの編集ページ
     public function edit($id)
     {
+        // ユーザーがログインしているか確認
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['message' => 'ログインしてください。']);
+        }
+
         $attendance = Attendance::findOrFail($id);
         return view('attendance_edit', compact('attendance'));
     }
@@ -53,6 +68,11 @@ class AttendanceController extends Controller
     // 出退勤データの更新
     public function update(Request $request, $id)
     {
+        // ユーザーがログインしているか確認
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['message' => 'ログインしてください。']);
+        }
+
         $attendance = Attendance::findOrFail($id);
         $attendance->status = $request->input('status');
         $attendance->timestamp = $request->input('timestamp');
